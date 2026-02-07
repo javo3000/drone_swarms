@@ -1,4 +1,4 @@
-# 🐝 Drone Swarms
+# Drone Swarms
 
 JAX-accelerated multi-robot swarm simulation using MuJoCo/MJX for differentiable physics.
 
