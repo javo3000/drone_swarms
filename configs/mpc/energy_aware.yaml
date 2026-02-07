@@ -1,0 +1,25 @@
+# Energy-aware MPC configuration
+mpc:
+  horizon: 15
+  dt: 0.02
+  max_iterations: 10
+  
+  # Cost weights
+  costs:
+    position_tracking: 1.0
+    velocity_tracking: 0.1
+    control_effort: 0.01
+    energy_efficiency: 0.5
+    collision_avoidance: 10.0
+    
+  # Constraints
+  constraints:
+    max_velocity: 10.0
+    max_acceleration: 5.0
+    min_separation: 3.0
+    
+  # Solver settings
+  solver:
+    method: "gradient_descent"
+    learning_rate: 0.1
+    warm_start: true
