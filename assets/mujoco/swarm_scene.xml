@@ -1,0 +1,51 @@
+<!--
+  Swarm Drone Model for MuJoCo
+  
+  A simple quadrotor representation with:
+  - Central body (sphere)
+  - 4 rotor markers
+  - Collision geometry
+  
+  Designed for swarm visualization (10-100 agents)
+-->
+<mujoco model="swarm_drone">
+  <compiler angle="degree" coordinate="local"/>
+  
+  <option gravity="0 0 -9.81" timestep="0.02"/>
+  
+  <default>
+    <geom contype="1" conaffinity="1" friction="1 0.1 0.1"/>
+    <joint damping="0.5"/>
+  </default>
+  
+  <asset>
+    <!-- Drone body texture -->
+    <texture name="drone_tex" type="2d" builtin="flat" rgb1="0.2 0.2 0.8" rgb2="0.1 0.1 0.4" width="32" height="32"/>
+    <material name="drone_mat" texture="drone_tex" specular="0.5" shininess="0.5"/>
+    
+    <!-- Rotor texture -->
+    <texture name="rotor_tex" type="2d" builtin="flat" rgb1="0.1 0.1 0.1" rgb2="0.3 0.3 0.3" width="16" height="16"/>
+    <material name="rotor_mat" texture="rotor_tex"/>
+    
+    <!-- Ground texture -->
+    <texture name="ground_tex" type="2d" builtin="checker" rgb1="0.4 0.6 0.4" rgb2="0.3 0.5 0.3" width="256" height="256"/>
+    <material name="ground_mat" texture="ground_tex" texrepeat="20 20"/>
+    
+    <!-- Trail marker -->
+    <material name="trail_mat" rgba="0.3 0.3 1.0 0.3"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Ground plane -->
+    <geom name="ground" type="plane" size="100 100 0.1" material="ground_mat" contype="0" conaffinity="0"/>
+    
+    <!-- Arena boundary markers -->
+    <geom name="boundary_x_pos" type="box" pos="50 0 0.5" size="0.5 50 0.5" rgba="1 0.3 0.3 0.3" contype="0" conaffinity="0"/>
+    <geom name="boundary_x_neg" type="box" pos="-50 0 0.5" size="0.5 50 0.5" rgba="1 0.3 0.3 0.3" contype="0" conaffinity="0"/>
+    <geom name="boundary_y_pos" type="box" pos="0 50 0.5" size="50 0.5 0.5" rgba="1 0.3 0.3 0.3" contype="0" conaffinity="0"/>
+    <geom name="boundary_y_neg" type="box" pos="0 -50 0.5" size="50 0.5 0.5" rgba="1 0.3 0.3 0.3" contype="0" conaffinity="0"/>
+    
+    <!-- Light -->
+    <light name="main_light" pos="0 0 100" dir="0 0 -1" diffuse="1 1 1" specular="0.3 0.3 0.3" castshadow="true"/>
+  </worldbody>
+</mujoco>

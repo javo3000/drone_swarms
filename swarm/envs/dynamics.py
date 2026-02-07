@@ -113,6 +113,16 @@ class PointMassDynamics:
         new_vel = state.vel + acc * self.dt
         new_pos = state.pos + new_vel * self.dt
         
+        # Ground collision: clamp Z >= 0.5m and zero downward velocity
+        ground_level = 0.5
+        on_ground = new_pos[2] < ground_level
+        new_pos = new_pos.at[2].set(jnp.maximum(new_pos[2], ground_level))
+        new_vel = jnp.where(
+            on_ground & (new_vel[2] < 0),
+            new_vel.at[2].set(0.0),
+            new_vel
+        )
+        
         # Energy consumption (proportional to thrust magnitude)
         thrust_mag = jnp.linalg.norm(thrust_body)
         new_energy = jnp.maximum(0.0, state.energy - self.energy_rate * thrust_mag * self.dt)
